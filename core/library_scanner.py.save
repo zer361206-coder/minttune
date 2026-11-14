@@ -1,0 +1,51 @@
+	import os
+from PyQt6.QtCore import QThread, pyqtSignal
+import mutagen
+from db.database import get_connection
+
+class LibraryScanner(QThread):
+    progress = pyqtSignal(str) # Mengirim teks lagu apa yang sedang discan
+    finished = pyqtSignal(int) # Mengirim jumlah lagu yang berhasil discan
+
+    def __init__(self, folder_path):
+        super().__init__()
+        self.folder_path = folder_path
+        self.conn = get_connection()
+
+    def run(self):
+        cursor = self.conn.cursor()
+        count = 0
+        
+        # Jalan-jalan ke dalam folder yang dipilih
+        for root, dirs, files in os.walk(self.folder_path):
+            for file in files:
+                if file.lower().endswith(('.mp3', '.flac', '.m4a', '.wav', '.ogg')):
+                    filepath = os.path.join(root, file)
+                    
+                    try:
+                        # Baca info lagu pakai Mutagen
+                        audio = mutagen.File(filepath, easy=True)
+                        if audio is None: continue
+                        
+                        title = audio.get('title', [os.path.splitext(file)[0]])[0]
+                        artist = audio.get('artist', ['Unknown Artist'])[0]
+                        album = audio.get('album', ['Unknown Album'])[0]
+                        duration = int(audio.info.length * 1000) if hasattr(audio.info, 'length') else 0
+                        
+                        # Simpan ke database
+                        cursor.execute('''INSERT INTO tracks (path, filename, title, artist, album, duration_ms) 
+                                          VALUES (?, ?, ?, ?, ?, ?)
+                                          ON CONFLICT(path) DO UPDATE SET title=excluded.title''',
+                                       (filepath, file, title, artist, album, duration))
+                        count += 1
+                        
+                        # Update tulisan loading setiap 10 lagu
+                        if count % 10 == 0:
+                            self.progress.emit(f"Memindai: {title}")
+                            self.conn.commit()
+                            
+                    except Exception as e:
+                        print(f"Gagal membaca {file}: {e}")
+
+        self.conn.commit()
+        self.finished.emit(count)

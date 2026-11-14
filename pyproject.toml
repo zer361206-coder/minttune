@@ -1,0 +1,11 @@
+[project]
+name = "minttune"
+version = "1.0.0"
+description = "Native desktop music player & library manager for Linux Mint (PyQt6)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "PyQt6>=6.5.0",
+    "mutagen>=1.47.0",
+    "Pillow>=10.0.0",
+]

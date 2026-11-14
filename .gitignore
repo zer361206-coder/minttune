@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+build/
+dist/
+deb_pkg/
+*.spec
+*.deb
+*.db
+*.log
