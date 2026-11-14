@@ -1,17 +1,17 @@
 # MintTune 🎵
 
-Pemutar musik desktop native modern untuk Linux Mint (dibangun dengan Python 3.11+ dan PyQt6).
+Music player untuk Linux mint yg simple. isinya pake python semua
 
 ## Fitur Utama
-- Integrasi Tema Linux Mint (otomatis ikut Dark/Light mode & Accent Color).
-- Manajemen Folder Whitelist & Blacklist.
-- Format Lengkap (MP3, FLAC, M4A, WAV, OGG, OPUS).
+- Temanya ngikutin tema dari system
+- Manajemen Folder Whitelist & Blacklist
+- Bisa support file MP3, FLAC, M4A, WAV, OGG, OPUS
 
 ## Cara Menjalankan dari Source
-1. Clone repositori ini:
+1. Clone repo:
    git clone https://github.com/zer361206-coder/minttune.git
-2. Masuk ke folder:
+2. Masuk ke foldernya:
    cd minttune
-3. Beri izin dan jalankan instalasi:
+3. trus kasih izin dan jalankan instalasi:
    chmod +x install.sh
    ./install.sh
