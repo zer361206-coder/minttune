@@ -4,7 +4,7 @@ Music player untuk Linux mint yg simple. isinya pake python semua
 
 ## Fitur Utama
 
-- Temanya ngikutin tema dari system
+- Temanya ngikutin tema dari system mint
 - Manajemen Folder Whitelist & Blacklist
 - Bisa support file MP3, FLAC, M4A, WAV, OGG, OPUS
 
